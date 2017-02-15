@@ -1,0 +1,16 @@
+{
+    "data": [
+        {
+            "content": "Task 01",
+            "resolved": false
+        },
+        {
+            "content": "Task 02",
+            "resolved": true
+        },
+        {
+            "content": "Task 03",
+            "resolved": false
+        }
+    ]
+}
