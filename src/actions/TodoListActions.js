@@ -1,9 +1,17 @@
 import { LOAD_DATA } from './types';
-import todolist from '../reducers/todolist.json';
 
 export const loadData = () => {
-    return {
-        type: LOAD_DATA,
-        payload: todolist.data
+    return (dispatch) => {
+        fetch('http://45.117.160.28:3330/tasks')
+            .then(response => response.json())
+            .then(response => {
+                dispatch({
+                    type: LOAD_DATA,
+                    payload: response.data || response
+                });
+            })
+            .catch(error => {
+                console.log('error', error.message);
+            });
     };
 };

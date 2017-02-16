@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, ListView } from 'react-native';
+import { View, ListView } from 'react-native';
 import { connect } from 'react-redux';
+import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 import { loadData } from '../actions';
-import { Button } from './common';
+import { Button, ListItem } from './common';
 
 class TodoList extends Component {
     componentWillMount() {
@@ -22,21 +24,38 @@ class TodoList extends Component {
         this.dataSource = ds.cloneWithRows(data);
     }
 
+    renderSeparator = (sectionID, rowID) => {
+        return <View style={styles.separatorStyle} key={rowID} />;
+    }
+
     render() {
         return (
-            <View style={{ backgroundColor: 'yellow', flex: 1 }}>
+            <View style={styles.container}>
                 <ListView
                     enableEmptySections
                     dataSource={this.dataSource}
-                    renderRow={(item) => <Text>{item.content}</Text>}
+                    renderRow={(item) => <ListItem item={item} />}
+                    renderSeparator={this.renderSeparator}
                 />
-                <Button title="Add" onPress={() => console.log('onButtonPressed')} />
+                <Button
+                    onPress={() => Actions.addTask()}
+                    icon={<Icon name="ios-add-outline" size={50} color="#fff" />}
+                />
             </View>
         );
     }
 }
 const mapStateToProps = (state) => {
-    console.log(state.TodoListReducer);
     return { data: state.TodoListReducer };
 };
+const styles = {
+    container: {
+        flex: 1
+    },
+    separatorStyle: {
+        borderBottomWidth: 0.5,
+        borderBottomColor: 'rgba(0, 0, 0, 0.5)'
+    }
+};
+
 export default connect(mapStateToProps, { loadData })(TodoList);

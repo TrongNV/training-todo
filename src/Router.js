@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Router, Scene } from 'react-native-router-flux';
 import TodoList from './components/TodoList';
+import AddTask from './components/AddTask';
 
 const RouterWithRedux = connect()(Router);
 class RouterComponent extends Component {
@@ -12,6 +13,13 @@ class RouterComponent extends Component {
                     key="todoList"
                     component={TodoList}
                     title="TodoList title"
+                    navigationBarStyle={styles.navigationBarStyle}
+                    sceneStyle={styles.sceneStyle}
+                />
+                <Scene
+                    key="addTask"
+                    component={AddTask}
+                    title="AddTask"
                     navigationBarStyle={styles.navigationBarStyle}
                     sceneStyle={styles.sceneStyle}
                 />

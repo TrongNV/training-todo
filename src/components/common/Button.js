@@ -5,17 +5,18 @@ import {
 } from 'react-native';
 
 const propTypes = {
-    title: PropTypes.string.isRequired,
+    title: PropTypes.string,
+    icon: PropTypes.object,
     onPress: PropTypes.func,
 };
 
-const Button = ({ title, onPress }) => {
+const Button = ({ title, onPress, icon }) => {
     return (
         <TouchableOpacity
             onPress={onPress}
             style={styles.buttonContainer}
         >
-            <Text style={styles.title}>{title}</Text>
+            {icon !== undefined ? icon : <Text style={styles.title}>{title}</Text>}
         </TouchableOpacity >
     );
 };
