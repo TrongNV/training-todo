@@ -8,7 +8,7 @@ import { Button } from './common';
 class TodoList extends Component {
     componentWillMount() {
         this.props.loadData();
-        this.createDataSource({ undefined });
+        this.createDataSource(this.props);
     }
 
     componentWillReceiveProps(nextProps) {
@@ -19,7 +19,7 @@ class TodoList extends Component {
         const ds = new ListView.DataSource({
             rowHasChanged: (r1, r2) => r1 !== r2
         });
-        this.dataSource = ds.cloneWithRows(data || []);
+        this.dataSource = ds.cloneWithRows(data);
     }
 
     render() {
@@ -36,7 +36,7 @@ class TodoList extends Component {
     }
 }
 const mapStateToProps = (state) => {
-    const { data } = state.TodoListReducer;
-    return { data };
+    console.log(state.TodoListReducer);
+    return { data: state.TodoListReducer };
 };
 export default connect(mapStateToProps, { loadData })(TodoList);

@@ -1,6 +1,6 @@
 import { LOAD_DATA } from '../actions/types';
 
-const INITIAL = {};
+const INITIAL = [];
 export default (state = INITIAL, action) => {
     switch (action.type) {
         case LOAD_DATA:
