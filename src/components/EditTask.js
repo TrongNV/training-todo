@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 import {
     View,
     Text,
@@ -7,21 +7,48 @@ import {
 } from 'react-native';
 import { Actions } from 'react-native-router-flux';
 
-class AddTask extends Component {
+const propTypes = {
+    item: PropTypes.object.isRequired
+};
 
-    state = {
-        text: ''
+class EditTask extends Component {
+
+    componentWillMount() {
+        this.setState({
+            text: this.props.item.content,
+            id: this.props.item._id
+        });
     }
 
     onSavePressed = () => {
-        const { text } = this.state;
-        fetch('http://45.117.160.28:3330/tasks', {
-            method: 'POST',
+        const { text, id } = this.state;
+        fetch(`http://45.117.160.28:3330/tasks/${id}`, {
+            method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'
             },
             body: JSON.stringify({
+                content: text
+            })
+        })
+            .then((response) => {
+                console.log(response);
+                Actions.todoList({ type: 'reset' });
+            })
+            .catch(error => console.log(error.message));
+    }
+
+    onResolvedPressed = () => {
+        const { id, text } = this.state;
+        fetch(`http://45.117.160.28:3330/tasks/${id}`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            },
+            body: JSON.stringify({
+                resolved: true,
                 content: text
             })
         })
@@ -47,7 +74,13 @@ class AddTask extends Component {
                         onPress={this.onSavePressed}
                         style={styles.buttonStyle}
                     >
-                        <Text>Save</Text>
+                        <Text>Update</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        onPress={this.onResolvedPressed}
+                        style={styles.buttonStyle}
+                    >
+                        <Text>Resolved</Text>
                     </TouchableOpacity>
                 </View>
             </View>
@@ -86,4 +119,6 @@ const styles = {
     }
 };
 
-export default AddTask;
+EditTask.propTypes = propTypes;
+
+export default EditTask;

@@ -4,6 +4,7 @@ import {
     Text
 } from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons';
+import { Actions } from 'react-native-router-flux';
 
 const propTypes = {
     item: PropTypes.object.isRequired
@@ -13,6 +14,7 @@ const ListItem = ({ item }) => {
     return (
         <TouchableOpacity
             style={styles.itemContainer}
+            onPress={() => Actions.editTask({ item })}
         >
             <Icon
                 name={item.resolved ? 'ios-checkbox-outline' : 'ios-square-outline'}
